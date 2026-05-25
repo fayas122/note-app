@@ -23,7 +23,7 @@ export default function FavoriteNotes({
 
       {/* Empty State */}
       {favoriteNotes.length === 0 && (
-        <div className="text-center py-10 text-zinc-400 border border-dashed border-zinc-700 rounded-2xl">
+        <div className="text-center py-10 text-zinc-400 border rounded-2xl">
           No favorite notes
         </div>
       )}
