@@ -55,16 +55,9 @@ export default function Addnote({ notes, setNotes }) {
           </p>
         </div>
 
-        <input
-          type="text"
-          placeholder="Enter title"
-          value={title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-            setError("");
-          }}
-          className="w-full bg-zinc-800 border border-zinc-700 rounded-xl p-3 outline-none focus:border-blue-500 transition"
-        />
+        <input type="text" placeholder="Enter title" value={title}
+          onChange={(e) => { setTitle(e.target.value); setError("");}}
+          className="w-full bg-zinc-800 border border-zinc-700 rounded-xl p-3 outline-none focus:border-blue-500 transition"/>
       </div>
 
       {/* Content */}
@@ -73,13 +66,8 @@ export default function Addnote({ notes, setNotes }) {
           Note
         </h1>
 
-        <textarea
-          placeholder="Type your content..."
-          value={content}
-          onChange={(e) => {
-            setContent(e.target.value);
-            setError("");
-          }}
+        <textarea placeholder="Type your content..." value={content}
+          onChange={(e) => {setContent(e.target.value); setError("");}}
           className="w-full bg-zinc-800 border border-zinc-700 rounded-xl p-3 h-36 outline-none resize-none focus:border-blue-500 transition"
         />
 
@@ -125,21 +113,13 @@ export default function Addnote({ notes, setNotes }) {
           <button
             type="button"
             onClick={() => setTheme("green")}
-            className={`w-10 h-10 rounded-full bg-green-500 border-4 transition hover:scale-110 ${
-              theme === "green"
-                ? "border-white"
-                : "border-zinc-700"
-            }`}
+            className={`w-10 h-10 rounded-full bg-green-500 border-4 transition hover:scale-110 
+              ${theme === "green" ? "border-white" : "border-zinc-700"}`}
           />
 
-          <button
-            type="button"
-            onClick={() => setTheme("yellow")}
-            className={`w-10 h-10 rounded-full bg-yellow-500 border-4 transition hover:scale-110 ${
-              theme === "yellow"
-                ? "border-white"
-                : "border-zinc-700"
-            }`}
+          <button type="button" onClick={() => setTheme("yellow")}
+            className={`w-10 h-10 rounded-full bg-yellow-500 border-4 transition hover:scale-110 
+              ${theme === "yellow" ? "border-white" : "border-zinc-700"}`}
           />
         </div>
       </div>

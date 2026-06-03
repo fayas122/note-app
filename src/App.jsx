@@ -12,10 +12,8 @@ function App() {
     const savedNotes =
       localStorage.getItem("notes");
 
-    return savedNotes
-      ? JSON.parse(savedNotes)
-      : [];
-  });
+    return savedNotes ? JSON.parse(savedNotes) : [];
+  });         
 
   const [selectedNote, setSelectedNote] =
     useState(null);
@@ -35,21 +33,12 @@ function App() {
         
         {/* Add Note */}
         <div className="bg-zinc-900 border border-zinc-800 shadow-2xl rounded-3xl p-6 text-zinc-100">
-          <Addnote
-            notes={notes}
-            setNotes={setNotes}
-          />
+          <Addnote notes={notes} setNotes={setNotes}/>
         </div>
 
         {/* Note List */}
         <div className="bg-zinc-900 border border-zinc-800 shadow-2xl rounded-3xl p-6 text-zinc-100">
-          <Notelist
-            notes={notes}
-            setNotes={setNotes}
-            setSelectedNote={
-              setSelectedNote
-            }
-          />
+          <Notelist notes={notes} setNotes={setNotes} setSelectedNote={setSelectedNote}/>
         </div>
 
         {/* Favourite Notes */}
@@ -61,15 +50,7 @@ function App() {
 
       {/* Edit Modal */}
       {selectedNote && (
-        <EditNote
-          selectedNote={selectedNote}
-          notes={notes}
-          setNotes={setNotes}
-          setSelectedNote={
-            setSelectedNote
-          }
-        />
-      )}
+        <EditNote selectedNote={selectedNote} notes={notes} setNotes={setNotes} setSelectedNote={setSelectedNote} />)}
     </div>
   );
 }

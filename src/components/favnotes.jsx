@@ -15,15 +15,11 @@ export default function FavoriteNotes({
           Favorite Notes
         </h1>
 
-        <span className="text-sm bg-zinc-800 px-3 py-1 rounded-full text-zinc-300">
-          {favoriteNotes.length}
-        </span>
-
       </div>
 
       {/* Empty State */}
       {favoriteNotes.length === 0 && (
-        <div className="text-center py-10 text-zinc-400 border rounded-2xl">
+        <div className="text-center py-10 text-zinc-400  rounded-2xl">
           No favorite notes
         </div>
       )}
