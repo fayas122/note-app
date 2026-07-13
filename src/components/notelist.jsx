@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 
 export default function NotesList({
@@ -10,17 +11,24 @@ export default function NotesList({
   const [selectedNotes, setSelectedNotes] =
     useState([]);
 
-  function toggleFav(id) {
-    const favNotes = notes.map((note) =>
-      note.id === id
-        ? {
-            ...note,
-            favorite: !note.favorite,
-          }
-        : note
+  async function toggleFav(id) {
+    const note = notes.find(
+      (note) => note.id === id
     );
 
-    setNotes(favNotes);
+    await axios.patch(
+      `http://localhost:3000/notes/${id}`,
+      {
+        favorite: !note.favorite,
+        updatedAt: new Date().toISOString(),
+      }
+    );
+
+    const res = await axios.get(
+      "http://localhost:3000/notes"
+    );
+
+    setNotes(res.data);
   }
 
   function toggleSelect(id) {
@@ -38,16 +46,26 @@ export default function NotesList({
     }
   }
 
-  function deleteSelectedNotes() {
-    const updatedNotes = notes.filter(
-      (note) =>
-        !selectedNotes.includes(note.id)
-    );
+  async function deleteSelectedNotes() {
+    try {
+      await Promise.all(
+        selectedNotes.map((id) =>
+          axios.delete(
+            `http://localhost:3000/notes/${id}`
+          )
+        )
+      );
 
-    setNotes(updatedNotes);
-    setSelectedNotes([]);
+      const res = await axios.get(
+        "http://localhost:3000/notes"
+      );
+
+      setNotes(res.data);
+      setSelectedNotes([]);
+    } catch (error) {
+      console.error(error);
+    }
   }
-
   const filteredNotes = notes.filter(
     (note) =>
       note.title
@@ -151,7 +169,7 @@ export default function NotesList({
             {/* Header */}
             <div className="flex justify-between items-start gap-3">
               <div className="flex items-start gap-3">
-               
+
 
                 <h2 className="text-xl font-bold break-words">
                   {note.title || "Untitled"}
@@ -178,7 +196,7 @@ export default function NotesList({
                 >
                   Edit
                 </button>
-                 <input
+                <input
                   type="checkbox"
                   checked={selectedNotes.includes(
                     note.id

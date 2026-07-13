@@ -1,0 +1,16 @@
+{
+  "notes": [
+    {
+      "title": "fayas ",
+      "content": "hello fayas",
+      "favorite": false,
+      "archived": false,
+      "category": "Study",
+      "theme": "red",
+      "createdAt": "2026-06-18T08:44:54.637Z",
+      "updatedAt": "2026-06-18T08:44:54.637Z",
+      "id": "3IcvZjeRbaE"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

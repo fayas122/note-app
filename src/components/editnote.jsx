@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 
 export default function EditNote({
@@ -24,11 +25,9 @@ export default function EditNote({
   const [error, setError] =
     useState("");
 
-  function updateNote() {
+  async function updateNote() {
     if (title.length > 100) {
-      setError(
-        "Title must be less than 100 characters"
-      );
+      setError("Title must be less than 100 characters");
       return;
     }
 
@@ -37,33 +36,41 @@ export default function EditNote({
       return;
     }
 
-    const updatedNotes = notes.map(
-      (note) =>
-        note.id === selectedNote.id
-          ? {
-              ...note,
-              title,
-              content,
-              category,
-              theme,
-              updatedAt: new Date(),
-            }
-          : note
-    );
+    const updatedNote = {
+      ...selectedNote,
+      title,
+      content,
+      category,
+      theme,
+      updatedAt: new Date().toISOString(),
+    };
 
-    setNotes(updatedNotes);
+    try {
+      await axios.put(
+        `http://localhost:3000/notes/${selectedNote.id}`,
+        updatedNote
+      );
 
-    setSelectedNote(null);
+      const res = await axios.get(
+        "http://localhost:3000/notes"
+      );
+
+      setNotes(res.data);
+      setSelectedNote(null);
+    } catch (error) {
+      console.error(error);
+    }
   }
+
 
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      
+
       <div className="bg-zinc-900 border border-zinc-800 shadow-2xl rounded-3xl p-6 w-full max-w-md space-y-5 text-zinc-100">
-        
+
         {/* Heading */}
         <div className="flex justify-between items-center">
-          
+
           <h1 className="text-2xl font-bold">
             Edit Note
           </h1>
@@ -81,9 +88,9 @@ export default function EditNote({
 
         {/* Title */}
         <div className="space-y-2">
-          
+
           <div className="flex justify-between">
-            
+
             <label className="text-sm uppercase tracking-widest text-zinc-400">
               Title
             </label>
@@ -108,7 +115,7 @@ export default function EditNote({
 
         {/* Content */}
         <div className="space-y-2">
-          
+
           <label className="text-sm uppercase tracking-widest text-zinc-400">
             Content
           </label>
@@ -132,7 +139,7 @@ export default function EditNote({
 
         {/* Category */}
         <div className="space-y-2">
-          
+
           <label className="text-sm uppercase tracking-widest text-zinc-400">
             Category
           </label>
@@ -164,44 +171,41 @@ export default function EditNote({
 
         {/* Theme */}
         <div className="space-y-3">
-          
+
           <h1 className="text-sm uppercase tracking-widest text-zinc-400">
             Color Theme
           </h1>
 
           <div className="flex gap-4">
-            
+
             <button
               onClick={() =>
                 setTheme("red")
               }
-              className={`w-10 h-10 rounded-full bg-red-500 border-4 transition hover:scale-110 ${
-                theme === "red"
-                  ? "border-white"
-                  : "border-zinc-700"
-              }`}
+              className={`w-10 h-10 rounded-full bg-red-500 border-4 transition hover:scale-110 ${theme === "red"
+                ? "border-white"
+                : "border-zinc-700"
+                }`}
             />
 
             <button
               onClick={() =>
                 setTheme("green")
               }
-              className={`w-10 h-10 rounded-full bg-green-500 border-4 transition hover:scale-110 ${
-                theme === "green"
-                  ? "border-white"
-                  : "border-zinc-700"
-              }`}
+              className={`w-10 h-10 rounded-full bg-green-500 border-4 transition hover:scale-110 ${theme === "green"
+                ? "border-white"
+                : "border-zinc-700"
+                }`}
             />
 
             <button
               onClick={() =>
                 setTheme("yellow")
               }
-              className={`w-10 h-10 rounded-full bg-yellow-400 border-4 transition hover:scale-110 ${
-                theme === "yellow"
-                  ? "border-white"
-                  : "border-zinc-700"
-              }`}
+              className={`w-10 h-10 rounded-full bg-yellow-400 border-4 transition hover:scale-110 ${theme === "yellow"
+                ? "border-white"
+                : "border-zinc-700"
+                }`}
             />
 
           </div>
@@ -209,7 +213,7 @@ export default function EditNote({
 
         {/* Buttons */}
         <div className="flex justify-end gap-3 pt-2">
-          
+
           <button
             onClick={() =>
               setSelectedNote(null)
